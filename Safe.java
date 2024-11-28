@@ -1,6 +1,8 @@
 
 public class Safe extends Item {
 
+	private static final long serialVersionUID = 1L;
+
 	public Safe(String name, String description) {
 		super(name, description);
 		

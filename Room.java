@@ -1,18 +1,22 @@
 import java.util.HashMap;
+import java.io.Serializable;
 
-public class Room extends Game {
-	private String description;
+public class Room extends Game implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private String name;
 	public HashMap<String, Item> roomObjects  = new HashMap<String, Item>();
+    public HashMap<String, NPC> roomNPCs = new HashMap<String, NPC>(); 
 	private Room east;
 	private Room west;
 	private Room north;
 	private Room south;
 	private Room up;
 	private Room down;
+	private boolean lock;
 	
-	public Room(String descript) {
-		this.description = descript; 
-		
+	public Room(String name) {
+		this.name = name;
+		Game.roomMap.put(name, this);
 	}
 	
 	public Room getExit(char Direction) {
@@ -81,9 +85,38 @@ public class Room extends Game {
 		this.roomObjects.remove(itemName);
 	}
 	
+	public void addNPC(NPC npc) {
+        this.roomNPCs.put(npc.getName(), npc);
+    }
+
+    public NPC getNPC(String npcName) {
+        return this.roomNPCs.get(npcName);
+    }
+
+    public void removeNPC(String npcName) {
+        this.roomNPCs.remove(npcName);
+    }
+    
 	@Override
 	public String toString() {
-		return this.description;
+		return Game.roomDescriptions.getOrDefault(this.name, "No description avaiable");
+		
+	}
+
+	public boolean getLock() {
+		return lock;
+	}
+
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 
